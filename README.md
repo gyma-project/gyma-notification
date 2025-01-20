@@ -24,10 +24,11 @@ docker run --hostname=my-rabbit -p 8083:15672 -p 5672:5672 -d rabbitmq:3-managem
 
 5. Configure o arquivo .env
 
-Utilize o arquivo .env-exemple como base e preencha os campos:
-
-EMAIL_USER=<Email utilizado pelo microserviço>
-EMAIL_APP_KEY=<Senha de app do email>
+  - Utilize o arquivo .env-exemple como base e preencha os campos:
+  ```env
+  EMAIL_USER=<Email utilizado pelo microserviço>
+  EMAIL_APP_KEY=<Senha de app do email>
+  ```
 
 5. Execute o arquivo mainRabbit.py
 ```sh
