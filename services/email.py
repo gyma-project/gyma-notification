@@ -1,7 +1,6 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from DTOs.MessageDTO import MessageDTO
 from dotenv import load_dotenv
 import os
 
@@ -12,35 +11,32 @@ email_user = os.getenv('EMAIL_USER')
 email_password = os.getenv('EMAIL_APP_KEY')
 
 # Função para enviar e-mails
-def send_email_to(message: MessageDTO):
+def send_email_to(email_list, content):
     print("Entrando na função de envio de e-mail...")
     
+    print("\nProcessando envio para emails:", email_list)
     # Criando a mensagem
     messageEmail = MIMEMultipart()
     messageEmail["From"] = email_user
-    messageEmail["To"] = message.receiverEmail
-    messageEmail["Subject"] = message.title
+    messageEmail["To"] = email_list
+    messageEmail["Subject"] = "Relatório"
 
     # Adicionando o corpo do e-mail
-    messageEmail.attach(MIMEText(message.description, "plain"))
+    messageEmail.attach(MIMEText(content, "plain"))
 
     try:
         with smtplib.SMTP_SSL(smtp_server, 465, timeout=30) as server:
-            print("Conectando ao servidor SMTP via SSL...")
             server.login(email_user, email_password)
-            server.sendmail(email_user, message.receiverEmail, messageEmail.as_string())
+            server.sendmail(email_user, email_list, messageEmail.as_string())
 
 
-        print("E-mail enviado com sucesso!")
-        return "E-mail enviado com sucesso!"
+        print("Enviado - OK")
     
     except smtplib.SMTPException as e:
-        print(f"Erro SMTP: {e}")
-        return f"Erro ao enviar o e-mail: {e}"
+        print(f"Erro - {e}")
     
     except Exception as e:
-        print(f"Erro inesperado: {e}")
-        return f"Erro ao enviar o e-mail: {e}"
+        print(f"Erro - {e}")
 
     finally:
-        print("Função de envio de e-mail finalizada.")
+        print("Envio finalizado!")
