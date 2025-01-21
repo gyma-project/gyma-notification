@@ -2,6 +2,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
+from utils.email_validate import email_validate_list
 import os
 
 # Configurações do servidor SMTP
@@ -13,6 +14,11 @@ email_password = os.getenv('EMAIL_APP_KEY')
 # Função para enviar e-mails
 def send_email_to(email_list, content):
     print("Entrando na função de envio de e-mail...")
+    
+    if not (email_validate_list(email_list)):
+        print("Erro, lista contém emails inválidos")
+        return
+    
     
     print("\nProcessando envio para emails:", email_list)
     # Criando a mensagem
