@@ -16,9 +16,10 @@ def send_email_to(email_list, content):
     print("Entrando na função de envio de e-mail...")
     
     if not (email_validate_list(email_list)):
-        print("Erro, lista contém emails inválidos")
-        return
+        raise ValueError("Erro, lista contém emails inválidos")
     
+    if (content == ""):
+        raise ValueError("Erro, não é possível enviar um email vazio")
     
     print("\nProcessando envio para emails:", email_list)
     # Criando a mensagem
@@ -37,12 +38,12 @@ def send_email_to(email_list, content):
 
 
         print("Enviado - OK")
+        return True
     
     except smtplib.SMTPException as e:
         print(f"Erro - {e}")
+        return False
     
     except Exception as e:
         print(f"Erro - {e}")
-
-    finally:
-        print("Envio finalizado!")
+        return False
