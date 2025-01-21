@@ -23,7 +23,6 @@ def main():
         
         # Dividir emails para array
         
-        
         print("")
         print("Realizando envio para a lista de emails:")
         print(email_list_to_send)
@@ -37,7 +36,7 @@ def main():
     print(' [*] Waiting for messages. To exit press CTRL+C')
     channel.start_consuming()
 
-def run_rabbit():
+if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
@@ -47,5 +46,3 @@ def run_rabbit():
         except SystemExit:
             os._exit(0)
             
-            
-run_rabbit()
