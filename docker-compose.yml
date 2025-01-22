@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+    container_name: python-app
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_URL: amqp://rabbitmq:5672  # A aplicação se conecta via rede interna
+    networks:
+      - app-network  # Definindo a rede para o app
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq-server
+    ports:
+      - "15672:15672"  # Interface de gerenciamento (exposta apenas para o host)
+    networks:
+      - app-network  # Definindo a rede para o rabbitmq
+
+networks:
+  app-network:  # Criando a rede interna para os containers
+    driver: bridge  # Usando a rede bridge padrão para containers
